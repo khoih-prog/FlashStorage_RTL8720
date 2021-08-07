@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 
 A clear and concise description of what you expected to happen.
 
-### Debug and AT-command log (if applicable)
+### Debug and log (if applicable)
 
 A clear and concise description of what you expected to happen.
 
@@ -35,8 +35,8 @@ If applicable, add screenshots to help explain your problem.
 
 Please ensure to specify the following:
 
-* Arduino IDE version (e.g. 1.8.13) or Platform.io version
-* `ESP8266`,`ESP32` or `STM32` Core Version (e.g. ESP8266 core v2.7.4, ESP32 v1.0.5 or STM32 v1.9.0)
+* Arduino IDE version (e.g. 1.8.15) or Platform.io version
+* `AmebaD` Core Version (e.g. AmebaD core v3.0.8)
 * Contextual information (e.g. what you were trying to achieve)
 * Simplest possible steps to reproduce
 * Anything that might be relevant in your opinion, such as:
@@ -46,10 +46,10 @@ Please ensure to specify the following:
 ### Example
 
 ```
-Arduino IDE version: 1.8.13
-ESP32 Core Version 1.0.5
+Arduino IDE version: 1.8.15
+AmebaD core v3.0.8
 OS: Ubuntu 20.04 LTS
-Linux xy-Inspiron-3593 5.4.0-66-generic #74-Ubuntu SMP Wed Jan 27 22:54:38 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.4.0-80-generic #90-Ubuntu SMP Fri Jul 9 22:49:44 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
 I encountered an endless loop while trying to connect to Local WiFi.

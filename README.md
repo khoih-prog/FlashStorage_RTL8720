@@ -114,7 +114,7 @@ Another way to install is to:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**FlashStorage_RTL8720** library](https://platformio.org/lib/show/xxxxxx/FlashStorage_RTL8720) by using [Library Manager](https://platformio.org/lib/show/xxxxxx/FlashStorage_RTL8720/installation). Search for **FlashStorage_RTL8720** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**FlashStorage_RTL8720** library](https://platformio.org/lib/show/12658/FlashStorage_RTL8720) by using [Library Manager](https://platformio.org/lib/show/12658/FlashStorage_RTL8720/installation). Search for **FlashStorage_RTL8720** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 ---

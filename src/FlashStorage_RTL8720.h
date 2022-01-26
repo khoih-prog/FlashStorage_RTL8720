@@ -10,11 +10,12 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/FlashStorage_RTL8720DN
   Licensed under MIT license
-  Version: 1.0.0
+  Version: 1.1.0
 
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
   1.0.0   K Hoang      06/08/2021  Initial coding to support RTL8720DN using emulated-FlashStorage
+  1.1.0   K Hoang      25/01/2022  Fix `multiple-definitions` linker error
   ******************************************************************************************************************************************/
 
 #pragma once
@@ -28,9 +29,20 @@
 
 #define LATEST_RTL8720_FIRMWARE           "1.0.0"
 
-#define FLASH_STORAGE_RTL8720_VERSION     "FlashStorage_RTL8720 v1.0.0"
+#ifndef FLASH_STORAGE_RTL8720_VERSION
+  #define FLASH_STORAGE_RTL8720_VERSION             "FlashStorage_RTL8720 v1.1.0"
+
+  #define FLASH_STORAGE_RTL8720_VERSION_MAJOR       1
+  #define FLASH_STORAGE_RTL8720_VERSION_MINOR       1
+  #define FLASH_STORAGE_RTL8720_VERSION_PATCH       0
+
+#define FLASH_STORAGE_RTL8720_VERSION_INT           1001000
+
+#endif
 
 #define FLASH_MEMORY_APP_BASE             0x00100000
+
+#include <Arduino.h>
 
 /////////////////////////////////////////////////////
 
@@ -71,8 +83,6 @@ const char FLASH_SP[]    = " ";
 //////////////////////////////////////////
 
 
-
-
 #ifdef __cplusplus
 extern "C" 
 {
@@ -97,7 +107,7 @@ extern "C"
   #endif  
 #endif
 
-flash_t flash_obj;
+static flash_t flash_obj;
 
 class FlashStorageClass_RTL8720
 {
@@ -161,7 +171,7 @@ class FlashStorageClass_RTL8720
      * @param index
      * @return value
      */
-    uint8_t readByte(uint32_t offset) 
+    uint8_t readByte(const uint32_t& offset) 
     {     
       if (!_initialized)
         init();
@@ -171,7 +181,7 @@ class FlashStorageClass_RTL8720
     
     /////////////////////////////////////////////////////
         
-    void writeByte(uint32_t offset, uint8_t data) 
+    void writeByte(const uint32_t& offset, const uint8_t& data) 
     {     
       if (!_initialized) 
         init();
@@ -200,7 +210,7 @@ class FlashStorageClass_RTL8720
      * @param index
      * @param value
      */
-    void updateByte(uint32_t offset, uint8_t value)
+    void updateByte(const uint32_t& offset, const uint8_t& value)
     {
       if (!_initialized) 
         init();
@@ -219,7 +229,7 @@ class FlashStorageClass_RTL8720
      * @param index
      * @return value
      */
-    uint32_t readWord(uint32_t offset) 
+    uint32_t readWord(const uint32_t& offset) 
     {     
       if (!_initialized)
         init();
@@ -229,7 +239,7 @@ class FlashStorageClass_RTL8720
     
     /////////////////////////////////////////////////////
         
-    void writeWord(uint32_t offset, uint32_t data) 
+    void writeWord(const uint32_t& offset, const uint32_t& data) 
     {     
       if (!_initialized) 
         init();
@@ -258,7 +268,7 @@ class FlashStorageClass_RTL8720
      * @param index
      * @param value
      */
-    void updateWord(uint32_t offset, uint32_t value)
+    void updateWord(const uint32_t& offset, const uint32_t& value)
     {
       if (!_initialized) 
         init();
@@ -278,7 +288,7 @@ class FlashStorageClass_RTL8720
      * @param value
      */
     //Functionality to 'get' and 'put' objects to and from FlashStorage.
-    template< typename T > T &get( uint32_t offset, T &t )
+    template< typename T > T &get( const uint32_t& offset, T &t )
     {       
       // Copy the data from the flash to the buffer if not yet
       if (!_initialized)
@@ -291,7 +301,7 @@ class FlashStorageClass_RTL8720
     
     /////////////////////////////////////////////////////
     
-    template< typename T > const T &put( uint32_t offset, const T &t )
+    template< typename T > const T &put( const uint32_t& offset, const T &t )
     {            
       // Copy the data from the flash to the buffer if not yet
       if (!_initialized) 
@@ -400,7 +410,7 @@ class FlashStorageClass_RTL8720
     unsigned char *buf;
 };
 
-FlashStorageClass_RTL8720 FlashStorage;
+static FlashStorageClass_RTL8720 FlashStorage;
 
 
 #endif    //#ifndef FlashStorage_RTL8720_h

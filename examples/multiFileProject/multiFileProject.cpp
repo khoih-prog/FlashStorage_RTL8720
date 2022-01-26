@@ -1,5 +1,6 @@
-/******************************************************************************************************************************************
-  StoreNameAndSurname.ino
+/****************************************************************************************************************************
+  multiFileProject.cpp
+  
   For Realtek RTL8720DN, etc. using Flash
 
   The FlashStorage_RTL8720DN library aims to provide a convenient way to store and retrieve user's data using the non-volatile flash memory
@@ -10,34 +11,14 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/FlashStorage_RTL8720DN
   Licensed under MIT license
- ******************************************************************************************************************************************/
+*****************************************************************************************************************************/
 
-#define FLASH_DEBUG               1
+// To demo how to include files in multi-file Projects
 
-// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
-#include <FlashStorage_RTL8720.h>
+#include "multiFileProject.h"
 
-const int WRITTEN_SIGNATURE = 0xBEEFDEED;
-
-// Create a structure that is big enough to contain a name
-// and a surname. The "valid" variable is set to "true" once
-// the structure is filled with actual data for the first time.
-typedef struct
+void testFlashStorage()
 {
-  char name[100];
-  char surname[100];
-} Person;
-
-void setup()
-{
-  Serial.begin(115200);
-  while (!Serial);
-
-  delay(200);
-
-  Serial.print(F("\nStart StoreNameAndSurname on ")); Serial.println(BOARD_NAME);
-  Serial.println(FLASH_STORAGE_RTL8720_VERSION);
-
   Serial.print("FlashStorage length: ");
   Serial.println(FlashStorage.length());
 
@@ -91,9 +72,4 @@ void setup()
     Serial.print(". Your surname: "); Serial.print(owner.surname);
     Serial.println(" >> have been saved. Thank you!");
   }
-}
-
-void loop()
-{
-  // Do nothing...
 }

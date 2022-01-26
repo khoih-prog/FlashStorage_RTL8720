@@ -10,11 +10,6 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/FlashStorage_RTL8720DN
   Licensed under MIT license
-  Version: 1.0.0
-
-  Version Modified By   Date        Comments
-  ------- -----------  ----------   -----------
-  1.0.0   K Hoang      06/08/2021  Initial coding to support RTL8720DN using emulated-FlashStorage
  ******************************************************************************************************************************************/
 
 /***
@@ -28,6 +23,7 @@
 
 #define FLASH_DEBUG               1
 
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include <FlashStorage_RTL8720.h>
 
 unsigned long FlashStorage_crc() 

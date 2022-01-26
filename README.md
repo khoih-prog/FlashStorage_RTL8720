@@ -14,8 +14,7 @@
 * [Why do we need this FlashStorage_RTL8720 library](#why-do-we-need-this-flashstorage_rtl8720-library)
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
-* [Changelog](#changelog)
-  * [Releases v1.0.0](#releases-v100)
+* [Changelog](changelog.md)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
   * [Use Arduino Library Manager](#use-arduino-library-manager)
@@ -35,6 +34,7 @@
   * [  8. FlashStorage_write](examples/FlashStorage_write)
   * [  9. **FlashStoreAndRetrieve**](examples/FlashStoreAndRetrieve)
   * [ 10. **StoreNameAndSurname**](examples/StoreNameAndSurname)
+  * [ 11. **multiFileProject**](examples/multiFileProject) **New** 
 * [Example StoreNameAndSurname](#example-storenameandsurname)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
   * [1. StoreNameAndSurname on Rtlduino RTL8720DN](#1-storenameandsurname-on-rtlduino-rtl8720dn)
@@ -46,7 +46,6 @@
   * [The content of the FlashStorage is erased each time a new sketch is uploaded?](#the-content-of-the-flashstorage-is-erased-each-time-a-new-sketch-is-uploaded)
   * [Do you recommend to use FLASH instead of EEPROM?](#do-you-recommend-to-use-flash-instead-of-eeprom)
 * [Troubleshooting](#troubleshooting)
-* [Releases](#releases)
 * [Issues](#issues)
 * [TO DO](#to-do)
 * [DONE](#done)
@@ -76,21 +75,10 @@ The flash memory, generally used to store the firmware code, can also be used to
 ---
 ---
 
-## Changelog
-
-
-### Releases v1.0.0
-
-1. Initial release to support **RTL8720DN, RTL8722DM, RTM8722CSM, etc.** boards
-
-
----
----
-
 ## Prerequisites
 
- 1. [`Arduino IDE 1.8.15+` for Arduino](https://www.arduino.cc/en/Main/Software)
- 2. [`Arduino AmebaD core 3.0.8+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTM8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
+ 1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
+ 2. [`Arduino AmebaD core 3.1.1+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTM8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
 
 ---
 
@@ -182,6 +170,8 @@ The API is very similar to the [FlashStorage_SAMD.h](https://github.com/khoih-pr
  8. [FlashStorage_write](examples/FlashStorage_write)
  9. [FlashStoreAndRetrieve](examples/FlashStoreAndRetrieve)
 10. [StoreNameAndSurname](examples/StoreNameAndSurname)
+11. [**multiFileProject**](examples/multiFileProject) **New**
+
 
 ---
 ---
@@ -192,6 +182,7 @@ The API is very similar to the [FlashStorage_SAMD.h](https://github.com/khoih-pr
 ```cpp
 #define FLASH_DEBUG               1
 
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include <FlashStorage_RTL8720.h>
 
 const int WRITTEN_SIGNATURE = 0xBEEFDEED;
@@ -288,7 +279,7 @@ void loop()
 
 ```
 Start StoreNameAndSurname on Rtlduino RTL8720DN
-FlashStorage_RTL8720 v1.0.0
+FlashStorage_RTL8720 v1.1.0
 FlashStorage length: 4096
 EEPROM is empty, writing WRITTEN_SIGNATURE and some example data:
 Insert your name : First_Name
@@ -301,7 +292,7 @@ Insert your surname : Last_Name
 
 ```
 Start StoreNameAndSurname on Rtlduino RTL8720DN
-FlashStorage_RTL8720 v1.0.0
+FlashStorage_RTL8720 v1.1.0
 FlashStorage length: 4096
 Hi First_Name Last_Name, nice to see you again :-)
 Clearing WRITTEN_SIGNATURE for next try
@@ -317,7 +308,7 @@ The following is the sample terminal output when running example [FlashStorage_r
 
 ```
 Start FlashStorage_read on Rtlduino RTL8720DN
-FlashStorage_RTL8720 v1.0.0
+FlashStorage_RTL8720 v1.1.0
 FlashStorage length: 4096
 0	100
 1	101
@@ -359,21 +350,6 @@ Sometimes, the library will only work if you update the board core to the latest
 ---
 ---
 
-## Releases
-
-### Releases v1.0.0
-
-1. Initial release to support **RTL8720DN, RTL8722DM, RTM8722CSM, etc.** boards
-
----
-
-### Currently supported Boards
-
-1. **RTL8720DN, RTL8722DM, RTM8722CSM, etc. boards**
-
----
----
-
 ### Issues
 
 Submit issues to: [FlashStorage_RTL8720 issues](https://github.com/khoih-prog/FlashStorage_RTL8720/issues)
@@ -391,6 +367,8 @@ Submit issues to: [FlashStorage_RTL8720 issues](https://github.com/khoih-prog/Fl
 
 1. Basic FlashStorage for RTL8720.
 2. Add Table of Contents
+3. Fix `multiple-definitions` linker error. 
+
 
 ---
 ---

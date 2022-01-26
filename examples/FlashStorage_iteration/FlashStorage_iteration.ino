@@ -10,11 +10,6 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/FlashStorage_RTL8720DN
   Licensed under MIT license
-  Version: 1.0.0
-
-  Version Modified By   Date        Comments
-  ------- -----------  ----------   -----------
-  1.0.0   K Hoang      06/08/2021  Initial coding to support RTL8720DN using emulated-FlashStorage
  ******************************************************************************************************************************************/
 /***
     FlashStorage_iteration example.
@@ -29,6 +24,7 @@
 
 #define FLASH_DEBUG               1
 
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include <FlashStorage_RTL8720.h>
 
 void setup()
@@ -92,15 +88,15 @@ void setup()
     Iterate the FlashStorage using a do-while loop.
   ***/
 
-  int idx = 0;  //Used 'idx' to avoid name conflict with 'index' above.
+  index = 0;  //Used 'idx' to avoid name conflict with 'index' above.
 
   do 
   {
     //Add one to each cell in the FlashStorage
     // Add one to each cell in the FlashStorage
     FlashStorage.writeByte(index, FlashStorage.readByte(index) + 1);
-    idx++;
-  } while (idx < FlashStorage.length());
+    index++;
+  } while (index < FlashStorage.length());
 
   if (FlashStorage.commit())
   {

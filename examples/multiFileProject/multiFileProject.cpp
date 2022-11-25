@@ -1,6 +1,6 @@
 /****************************************************************************************************************************
   multiFileProject.cpp
-  
+
   For Realtek RTL8720DN, etc. using Flash
 
   The FlashStorage_RTL8720DN library aims to provide a convenient way to store and retrieve user's data using the non-volatile flash memory
@@ -37,7 +37,10 @@ void testFlashStorage()
     FlashStorage.get(storedAddress + sizeof(signature), owner);
 
     // Say hello to the returning user!
-    Serial.print("Hi "); Serial.print(owner.name); Serial.print(" "); Serial.print(owner.surname);
+    Serial.print("Hi ");
+    Serial.print(owner.name);
+    Serial.print(" ");
+    Serial.print(owner.surname);
     Serial.println(", nice to see you again :-)");
 
     Serial.println("Clearing WRITTEN_SIGNATURE for next try");
@@ -68,8 +71,10 @@ void testFlashStorage()
     FlashStorage.put(storedAddress + sizeof(signature), owner);
 
     // Print a confirmation of the data inserted.
-    Serial.print("<< Your name: "); Serial.print(owner.name);
-    Serial.print(". Your surname: "); Serial.print(owner.surname);
+    Serial.print("<< Your name: ");
+    Serial.print(owner.name);
+    Serial.print(". Your surname: ");
+    Serial.print(owner.surname);
     Serial.println(" >> have been saved. Thank you!");
   }
 }

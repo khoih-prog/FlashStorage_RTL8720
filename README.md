@@ -6,7 +6,11 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/FlashStorage_RTL8720.svg)](http://github.com/khoih-prog/FlashStorage_RTL8720/issues)
 
-<a href="https://www.buymeacoffee.com/khoihprog6" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+<a href="https://profile-counter.glitch.me/khoih-prog/count.svg" title="Total khoih-prog Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog/count.svg" style="height: 30px;width: 200px;"></a>
+<a href="https://profile-counter.glitch.me/khoih-prog-FlashStorage_RTL8720/count.svg" title="FlashStorage_RTL8720 Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-FlashStorage_RTL8720/count.svg" style="height: 30px;width: 200px;"></a>
 
 ---
 ---
@@ -22,6 +26,8 @@
   * [Use Arduino Library Manager](#use-arduino-library-manager)
   * [Manual Install](#manual-install)
   * [VS Code & PlatformIO](#vs-code--platformio)
+* [Packages' Patches](#packages-patches)
+  * [1. For RTL8720DN boards using AmebaD core](#1-for-rtl8720dn-boards-using-amebad-core)
 * [Limited number of writes](#limited-number-of-writes)
 * [Usage](#usage)
   * [Using the alternative FlashStorage API](#using-the-alternative-flashstorage-api)
@@ -80,8 +86,9 @@ The flash memory, generally used to store the firmware code, can also be used to
 ## Prerequisites
 
  1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
- 2. [`Arduino AmebaD core 3.1.2+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTM8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
+ 2. [`Arduino AmebaD core 3.1.4+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTM8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
 
+---
 ---
 
 ## Installation
@@ -107,6 +114,27 @@ Another way to install is to:
 3. Install [**FlashStorage_RTL8720** library](https://platformio.org/lib/show/12658/FlashStorage_RTL8720) by using [Library Manager](https://platformio.org/lib/show/12658/FlashStorage_RTL8720/installation). Search for **FlashStorage_RTL8720** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
+
+---
+---
+
+
+### Packages' Patches
+
+#### 1. For RTL8720DN boards using AmebaD core
+ 
+ To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.4/cores/ambd/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.4/cores/ambd/avr/pgmspace.h). 
+
+Supposing the Realtek AmebaD core version is 3.1.4. This file must be copied into the directory:
+
+- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.4/cores/ambd/avr/pgmspace.h`
+
+Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
+This file must be copied into the directory:
+
+- `~/.arduino15/packages/realtek/hardware/AmebaD/x.yy.zz/cores/ambd/avr/pgmspace.h`
+
+
 ---
 ---
 
@@ -114,7 +142,7 @@ Another way to install is to:
 
 The flash memory has a limited amount of write cycles. Typical flash memories can perform about 10000 writes cycles to the same flash block before starting to "wear out" and begin to lose the ability to retain data.
 
-So **BEWARE: IMPROPER USE OF THIS LIBRARY CAN QUICKLY AND PERMANENTLY DESTROY THE FLASH MEMORY OF YOUR MICRO**, in particular you should avoid to call the `FlashStorage.writeByte(), FlashStorage.writeWord()` functions, without calling `FlashStorage.setCommitASAP(false)`, too often. Also make sure that in the entire life of the number of calls to `write` or `commit()` stay well below the above limit of 10000 (it's a good rule-of-thumb to keep that number in mind even if the manufacturer of the micro guarantees a bigger number of cycles).
+So **BEWARE: IMPROPER USE OF THIS LIBRARY CAN QUICKLY AND PERMANENTLY DESTROY THE FLASH MEMORY OF YOUR MICRO**, in particular you should avoid to call the `FlashStorage.writeByte(), FlashStorage.writeWord()` functions, without calling `FlashStorage.setCommitASAP(false)`, too often. Also make sure that in the entire life of the number of calls to `write` or `commit()` stay well below the above limit of **10000** (it's a good rule-of-thumb to keep that number in mind even if the manufacturer of the micro guarantees a bigger number of cycles).
 
 The same caution must be taken if you're using the FlashStorage API (see below) with the `FlashStorage.commit()` function.
 
@@ -279,7 +307,7 @@ void loop()
 
 #### 1.1 First Start
 
-```
+```cpp
 Start StoreNameAndSurname on Rtlduino RTL8720DN
 FlashStorage_RTL8720 v1.1.0
 FlashStorage length: 4096
@@ -292,7 +320,7 @@ Insert your surname : Last_Name
 
 #### 1.2 After Restart
 
-```
+```cpp
 Start StoreNameAndSurname on Rtlduino RTL8720DN
 FlashStorage_RTL8720 v1.1.0
 FlashStorage length: 4096
@@ -308,7 +336,7 @@ Done clearing signature in FlashStorage. You can reset now
 The following is the sample terminal output when running example [FlashStorage_read](examples/FlashStorage_read) on Rtlduino RTL8720DN
 
 
-```
+```cpp
 Start FlashStorage_read on Rtlduino RTL8720DN
 FlashStorage_RTL8720 v1.1.0
 FlashStorage length: 4096
@@ -370,7 +398,7 @@ Submit issues to: [FlashStorage_RTL8720 issues](https://github.com/khoih-prog/Fl
 1. Basic FlashStorage for RTL8720.
 2. Add Table of Contents
 3. Fix `multiple-definitions` linker error. 
-
+4. Add astyle using `allman` style. Restyle the library
 
 ---
 ---
@@ -408,5 +436,5 @@ If you want to contribute to this project:
 
 ### Copyright
 
-Copyright 2021- Khoi Hoang
+Copyrigh (c) 2021- Khoi Hoang
 

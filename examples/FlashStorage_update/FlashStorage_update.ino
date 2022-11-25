@@ -35,11 +35,13 @@ int address = 0;
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStart FlashStorage_read on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart FlashStorage_read on "));
+  Serial.println(BOARD_NAME);
   Serial.println(FLASH_STORAGE_RTL8720_VERSION);
 
   Serial.print("FlashStorage length: ");
@@ -53,12 +55,12 @@ uint8_t startNumber = 0;
 void loop()
 {
   unsigned long startMillis = millis();
- 
-  for (int i = 0 ; i < FlashStorage.length() ; i++) 
+
+  for (int i = 0 ; i < FlashStorage.length() ; i++)
   {
     /***
       The function FlashStorage.updateByte(address, val) is equivalent to the following:
-  
+
       if( FlashStorage.readByte(address) != val )
       {
         FlashStorage.writeByte(address, val);
@@ -66,10 +68,11 @@ void loop()
     ***/
     FlashStorage.updateByte(i, startNumber++);
   }
-  
+
   FlashStorage.commit();
 
-  Serial.print("Done updating FlashStorage. Time spent (ms) = "); Serial.println(millis() - startMillis);
+  Serial.print("Done updating FlashStorage. Time spent (ms) = ");
+  Serial.println(millis() - startMillis);
 
   delay(60000);
 }

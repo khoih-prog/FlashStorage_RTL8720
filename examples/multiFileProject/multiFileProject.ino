@@ -1,6 +1,6 @@
 /****************************************************************************************************************************
   multiFileProject.ino
-  
+
   For Realtek RTL8720DN, etc. using Flash
 
   The FlashStorage_RTL8720DN library aims to provide a convenient way to store and retrieve user's data using the non-volatile flash memory
@@ -27,26 +27,29 @@
 
 #include "multiFileProject.h"
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
-  
+
   Serial.println("\nStart multiFileProject");
   Serial.println(FLASH_STORAGE_RTL8720_VERSION);
 
 #if defined(FLASH_STORAGE_RTL8720_VERSION_MIN)
+
   if (FLASH_STORAGE_RTL8720_VERSION_INT < FLASH_STORAGE_RTL8720_VERSION_MIN)
   {
     Serial.print("Warning. Must use this example on Version equal or later than : ");
     Serial.println(FLASH_STORAGE_RTL8720_VERSION_MIN_TARGET);
   }
+
 #endif
 
   testFlashStorage();
 }
 
-void loop() 
+void loop()
 {
   // put your main code here, to run repeatedly:
 }

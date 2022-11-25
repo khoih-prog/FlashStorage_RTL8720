@@ -55,11 +55,13 @@ void secondTest()
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStart FlashStorage_get on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart FlashStorage_get on "));
+  Serial.println(BOARD_NAME);
   Serial.println(FLASH_STORAGE_RTL8720_VERSION);
 
   Serial.print("FlashStorage length: ");

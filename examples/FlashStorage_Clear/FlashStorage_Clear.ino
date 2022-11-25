@@ -17,28 +17,31 @@
 // Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include <FlashStorage_RTL8720.h>
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStart FlashStorage_Clear on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart FlashStorage_Clear on "));
+  Serial.println(BOARD_NAME);
   Serial.println(FLASH_STORAGE_RTL8720_VERSION);
-  
+
   Serial.print("FlashStorage length: ");
   Serial.println(FlashStorage.length());
 
   unsigned long startMillis = millis();
-  
+
   FlashStorage.eraseFlashSector();
 
   // The time spent can be very short (4-5ms) if the FlashStorage is not dirty.
-  Serial.print("Done clearing FlashStorage. Time spent (ms) = "); Serial.println(millis() - startMillis);
+  Serial.print("Done clearing FlashStorage. Time spent (ms) = ");
+  Serial.println(millis() - startMillis);
 }
 
-void loop() 
+void loop()
 {
   /** Empty loop. **/
 }

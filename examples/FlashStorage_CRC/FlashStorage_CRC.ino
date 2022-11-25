@@ -26,7 +26,7 @@
 // Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include <FlashStorage_RTL8720.h>
 
-unsigned long FlashStorage_crc() 
+unsigned long FlashStorage_crc()
 {
   const unsigned long crc_table[16] =
   {
@@ -51,11 +51,13 @@ unsigned long FlashStorage_crc()
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStart FlashStorage_CRC on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart FlashStorage_CRC on "));
+  Serial.println(BOARD_NAME);
   Serial.println(FLASH_STORAGE_RTL8720_VERSION);
 
   //Print length of data to run CRC on.
@@ -68,7 +70,7 @@ void setup()
   Serial.print("Done!");
 }
 
-void loop() 
+void loop()
 {
   /* Empty loop */
 }

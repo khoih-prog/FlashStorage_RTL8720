@@ -20,11 +20,13 @@
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStart FlashStoreAndRetrieve on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart FlashStoreAndRetrieve on "));
+  Serial.println(BOARD_NAME);
   Serial.println(FLASH_STORAGE_RTL8720_VERSION);
 
   Serial.print("FlashStorage length: ");
@@ -37,11 +39,12 @@ void setup()
   FlashStorage.get(address, number);
 
   // Print the current number on the serial monitor
-  Serial.print("Get Number = 0x"); Serial.println(number, HEX);
+  Serial.print("Get Number = 0x");
+  Serial.println(number, HEX);
 
   // Save into FlashStorage the number increased by 1 for the next run of the sketch
   //++number;
-   
+
   FlashStorage.put(address, ++number);
 
   Serial.println("Done writing to FlashStorage. You can reset now");

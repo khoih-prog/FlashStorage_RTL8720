@@ -14,7 +14,7 @@
 /*
    FlashStorage Write
 
-   Stores values read from analog input 0 into the FlashStorage. These values will stay in the FlashStorage 
+   Stores values read from analog input 0 into the FlashStorage. These values will stay in the FlashStorage
    when the board is turned off and may be retrieved later by another sketch.
 */
 
@@ -29,11 +29,13 @@ int address = 0;
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStart FlashStorage_write on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart FlashStorage_write on "));
+  Serial.println(BOARD_NAME);
   Serial.println(FLASH_STORAGE_RTL8720_VERSION);
 
   Serial.print("FlashStorage length: ");
@@ -47,12 +49,12 @@ uint8_t startNumber = 100;
 void loop()
 {
   unsigned long startMillis = millis();
-  
-  for (int i = 0 ; i < FlashStorage.length() ; i++) 
+
+  for (int i = 0 ; i < FlashStorage.length() ; i++)
   {
     /***
       The function FlashStorage.update(address, val) is equivalent to the following:
-  
+
       if( FlashStorage.read(address) != val )
       {
         FlashStorage.write(address, val);
@@ -60,10 +62,11 @@ void loop()
     ***/
     FlashStorage.writeByte(i, startNumber++);
   }
-  
+
   FlashStorage.commit();
 
-  Serial.print("Done writing emulated FlashStorage. Time spent (ms) = "); Serial.println(millis() - startMillis);
+  Serial.print("Done writing emulated FlashStorage. Time spent (ms) = ");
+  Serial.println(millis() - startMillis);
 
   delay(60000);
 }

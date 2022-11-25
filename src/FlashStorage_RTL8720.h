@@ -36,7 +36,7 @@
   #define FLASH_STORAGE_RTL8720_VERSION_MINOR       1
   #define FLASH_STORAGE_RTL8720_VERSION_PATCH       0
 
-#define FLASH_STORAGE_RTL8720_VERSION_INT           1001000
+  #define FLASH_STORAGE_RTL8720_VERSION_INT           1001000
 
 #endif
 
@@ -84,7 +84,7 @@ const char FLASH_SP[]    = " ";
 
 
 #ifdef __cplusplus
-extern "C" 
+extern "C"
 {
 #endif
 
@@ -104,7 +104,7 @@ extern "C"
     #define BOARD_NAME    BOARD_TYPE
   #else
     #define BOARD_NAME    "Unknown Board"
-  #endif  
+  #endif
 #endif
 
 static flash_t flash_obj;
@@ -112,301 +112,302 @@ static flash_t flash_obj;
 class FlashStorageClass_RTL8720
 {
   public:
-  
-    FlashStorageClass_RTL8720() : _initialized(false), _dirtyBuffer(false), _commitASAP(true) , _validFlashStorage(true) 
+
+    FlashStorageClass_RTL8720() : _initialized(false), _dirtyBuffer(false), _commitASAP(true), _validFlashStorage(true)
     {
       buf = (unsigned char *) malloc ( FLASH_SECTOR_SIZE );
       memset(buf, 0, sizeof(buf));
     }
 
-    ~FlashStorageClass_RTL8720() 
+    ~FlashStorageClass_RTL8720()
     {
-      if (buf != NULL) 
+      if (buf != NULL)
       {
         free(buf);
         buf = NULL;
       }
     }
-   
+
     /////////////////////////////////////////////////////
- 
+
     // Read whole sector from Flash to local buf
-    void readFlashToBuffer() 
-    {       
+    void readFlashToBuffer()
+    {
       if (buf)
       {
         flash_stream_read(_pflash_obj, _base_address, FLASH_SECTOR_SIZE, buf);
       }
     }
-    
+
     /////////////////////////////////////////////////////
-    
+
     // Write whole sector from local buf to Flash
     // Return true if commit OK
-    bool commit() 
+    bool commit()
     {
       if (!_initialized)
         init();
-        
+
       if (buf)
-      {       
+      {
         unsigned int sector;
-      
-        sector = ((_base_address) / FLASH_SECTOR_SIZE ) * FLASH_SECTOR_SIZE;;    //((_base_address + offset) / FLASH_SECTOR_SIZE ) * FLASH_SECTOR_SIZE;
+
+        sector = ((_base_address) / FLASH_SECTOR_SIZE ) * FLASH_SECTOR_SIZE;
+        ;    //((_base_address + offset) / FLASH_SECTOR_SIZE ) * FLASH_SECTOR_SIZE;
         flash_erase_sector(_pflash_obj, sector);
 
         flash_stream_write(_pflash_obj, sector, FLASH_SECTOR_SIZE, buf);
-        
+
         _dirtyBuffer = false;
         _validFlashStorage = true;
       }
-      
+
       return !(_dirtyBuffer);
     }
-    
+
     /////////////////////////////////////////////////////
 
     /**
-     * Read a uint8_t byte at FlashStorage address
-     * @param index
-     * @return value
-     */
-    uint8_t readByte(const uint32_t& offset) 
-    {     
+       Read a uint8_t byte at FlashStorage address
+       @param index
+       @return value
+    */
+    uint8_t readByte(const uint32_t& offset)
+    {
       if (!_initialized)
         init();
-      
+
       return * (uint8_t*) (buf + offset);
     }
-    
+
     /////////////////////////////////////////////////////
-        
-    void writeByte(const uint32_t& offset, const uint8_t& data) 
-    {     
-      if (!_initialized) 
+
+    void writeByte(const uint32_t& offset, const uint8_t& data)
+    {
+      if (!_initialized)
         init();
-     
+
       * (uint8_t*) (buf + offset) = data;
-      
+
       if (_commitASAP)
       {
         // Save the data from the buffer to the flash right away
         commit();
-        
+
         _dirtyBuffer = false;
         _validFlashStorage = true;
       }
-      else  
+      else
       {
         // Delay saving the data from the buffer to the flash. Just flag and wait for commit() later
-        _dirtyBuffer = true;    
-      }      
+        _dirtyBuffer = true;
+      }
     }
-    
+
     /////////////////////////////////////////////////////
-    
+
     /**
-     * Update a uint8_t byte at FlashStorage address
-     * @param index
-     * @param value
-     */
+       Update a uint8_t byte at FlashStorage address
+       @param index
+       @param value
+    */
     void updateByte(const uint32_t& offset, const uint8_t& value)
     {
-      if (!_initialized) 
+      if (!_initialized)
         init();
-        
+
       if (readByte(offset) != value)
       {
         _dirtyBuffer = true;
         writeByte(offset, value);
       }
     }
-         
+
     /////////////////////////////////////////////////////
 
     /**
-     * Read a uint32_t word at FlashStorage address
-     * @param index
-     * @return value
-     */
-    uint32_t readWord(const uint32_t& offset) 
-    {     
+       Read a uint32_t word at FlashStorage address
+       @param index
+       @return value
+    */
+    uint32_t readWord(const uint32_t& offset)
+    {
       if (!_initialized)
         init();
-      
+
       return * (uint32_t*) (buf + offset);
     }
-    
+
     /////////////////////////////////////////////////////
-        
-    void writeWord(const uint32_t& offset, const uint32_t& data) 
-    {     
-      if (!_initialized) 
+
+    void writeWord(const uint32_t& offset, const uint32_t& data)
+    {
+      if (!_initialized)
         init();
-     
+
       * (uint32_t*) (buf + offset) = data;
-      
+
       if (_commitASAP)
       {
         // Save the data from the buffer to the flash right away
         commit();
-        
+
         _dirtyBuffer = false;
         _validFlashStorage = true;
       }
-      else  
+      else
       {
         // Delay saving the data from the buffer to the flash. Just flag and wait for commit() later
-        _dirtyBuffer = true;    
-      }      
+        _dirtyBuffer = true;
+      }
     }
-    
+
     /////////////////////////////////////////////////////
-    
+
     /**
-     * Update a uint8_t byte at FlashStorage address
-     * @param index
-     * @param value
-     */
+       Update a uint8_t byte at FlashStorage address
+       @param index
+       @param value
+    */
     void updateWord(const uint32_t& offset, const uint32_t& value)
     {
-      if (!_initialized) 
+      if (!_initialized)
         init();
-        
+
       if (readWord(offset) != value)
       {
         _dirtyBuffer = true;
         writeWord(offset, value);
       }
     }
-   
+
     /////////////////////////////////////////////////////
-   
+
     /**
-     * Update FlashStorage cells from an object
-     * @param index
-     * @param value
-     */
+       Update FlashStorage cells from an object
+       @param index
+       @param value
+    */
     //Functionality to 'get' and 'put' objects to and from FlashStorage.
     template< typename T > T &get( const uint32_t& offset, T &t )
-    {       
+    {
       // Copy the data from the flash to the buffer if not yet
       if (!_initialized)
         init();
-                   
+
       memcpy((uint8_t *) &t, (uint8_t *) (buf + offset), sizeof(T));
-      
+
       return t;
     }
-    
+
     /////////////////////////////////////////////////////
-    
+
     template< typename T > const T &put( const uint32_t& offset, const T &t )
-    {            
+    {
       // Copy the data from the flash to the buffer if not yet
-      if (!_initialized) 
+      if (!_initialized)
         init();
-        
+
       memcpy((uint8_t *) (buf + offset), (uint8_t *) &t, sizeof(T));
-      
+
       if (_commitASAP)
       {
         // Save the data from the buffer to the flash right away
         commit();
-        
+
         _dirtyBuffer = false;
         _validFlashStorage = true;
       }
-      else  
+      else
       {
         // Delay saving the data from the buffer to the flash. Just flag and wait for commit() later
-        _dirtyBuffer = true;    
+        _dirtyBuffer = true;
       }
-                        
+
       return t;
     }
-    
+
     /////////////////////////////////////////////////////
 
     /**
-     * Check whether the FlashStorage data is valid
-     * @return true, if FlashStorage data is valid (has been written at least once), false if not
-     */
+       Check whether the FlashStorage data is valid
+       @return true, if FlashStorage data is valid (has been written at least once), false if not
+    */
     bool isValid()
-    {         
+    {
       return _initialized;
     }
-    
-    /////////////////////////////////////////////////////
-
-    uint16_t length() 
-    { 
-      return _flashSize; 
-    }
 
     /////////////////////////////////////////////////////
-    
-    void setCommitASAP(bool value = true) 
-    { 
-      _commitASAP = value; 
+
+    uint16_t length()
+    {
+      return _flashSize;
     }
-    
+
     /////////////////////////////////////////////////////
-    
-    bool getCommitASAP() 
-    { 
-      return _commitASAP; 
+
+    void setCommitASAP(bool value = true)
+    {
+      _commitASAP = value;
     }
-    
+
+    /////////////////////////////////////////////////////
+
+    bool getCommitASAP()
+    {
+      return _commitASAP;
+    }
+
     void eraseFlashSector()
     {
       // All data to 0xFFFFFFFF
-      
+
       flash_erase_sector(_pflash_obj, _base_address);
     }
-    
+
     /////////////////////////////////////////////////////
-    
+
   private:
-  
+
     void init(uint32_t flashSize = FLASH_SECTOR_SIZE)
     {
-      if (buf == NULL) 
+      if (buf == NULL)
       {
         FLASH_LOGDEBUG("init() error, buf = NULL");
-        
+
         return;
       }
-            
+
       FLASH_LOGDEBUG1("init(), flashSize =", _flashSize);
-      
+
       _flashSize = flashSize;
-            
+
       readFlashToBuffer();
-      
+
       _initialized = true;
     }
-    
+
     /////////////////////////////////////////////////////
 
     flash_t*  _pflash_obj   = &flash_obj;
     uint32_t  _flashSize    = FLASH_SECTOR_SIZE;          // sector size = 4KB = 0x1000
     uint32_t  _base_address = FLASH_MEMORY_APP_BASE;      // 0x00100000
-    
-    bool      _initialized;     
+
+    bool      _initialized;
     bool      _dirtyBuffer;
     bool      _commitASAP;
     bool      _validFlashStorage;
-    
+
     /**
-     * @brief The buf size. (It can be regarded as work size)
-     */
+       @brief The buf size. (It can be regarded as work size)
+    */
     //uint32_t buf_size;
 
     /**
-     * @brief The buf to be operated.
-     * @note Modify buf won't change the content of buf. It needs update to write back to flash memory.
-     */
+       @brief The buf to be operated.
+       @note Modify buf won't change the content of buf. It needs update to write back to flash memory.
+    */
     unsigned char *buf;
 };
 

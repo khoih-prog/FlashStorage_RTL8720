@@ -30,18 +30,20 @@ byte value;
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStart FlashStorage_read on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart FlashStorage_read on "));
+  Serial.println(BOARD_NAME);
   Serial.println(FLASH_STORAGE_RTL8720_VERSION);
 
   Serial.print("FlashStorage length: ");
   Serial.println(FlashStorage.length());
 }
 
-void loop() 
+void loop()
 {
   // read a byte from the current address of the FlashStorage
   value = FlashStorage.readByte(address);
@@ -50,8 +52,8 @@ void loop()
   Serial.print("\t");
   Serial.print(value, DEC);
   Serial.println();
- 
-  if (++address == FlashStorage.length()) 
+
+  if (++address == FlashStorage.length())
   {
     address = 0;
   }

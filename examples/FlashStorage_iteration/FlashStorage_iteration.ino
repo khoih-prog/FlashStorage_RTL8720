@@ -30,11 +30,13 @@
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStart FlashStorage_iteration on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart FlashStorage_iteration on "));
+  Serial.println(BOARD_NAME);
   Serial.println(FLASH_STORAGE_RTL8720_VERSION);
 
   Serial.print("FlashStorage length: ");
@@ -45,8 +47,8 @@ void setup()
   ***/
 
   FlashStorage.setCommitASAP(false);
-  
-  for (int index = 0 ; index < FlashStorage.length() ; index++) 
+
+  for (int index = 0 ; index < FlashStorage.length() ; index++)
   {
     // Add one to each cell in the FlashStorage
     FlashStorage.writeByte(index, FlashStorage.readByte(index) + 1);
@@ -67,7 +69,7 @@ void setup()
 
   int index = 0;
 
-  while (index < FlashStorage.length()) 
+  while (index < FlashStorage.length())
   {
     //Add one to each cell in the FlashStorage
     // Add one to each cell in the FlashStorage
@@ -90,7 +92,7 @@ void setup()
 
   index = 0;  //Used 'idx' to avoid name conflict with 'index' above.
 
-  do 
+  do
   {
     //Add one to each cell in the FlashStorage
     // Add one to each cell in the FlashStorage
@@ -109,7 +111,7 @@ void setup()
 
   // Necessary only for code below
   FlashStorage.setCommitASAP(true);
-  
+
 } //End of setup function.
 
 void loop() {}
